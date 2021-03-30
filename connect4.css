@@ -46,8 +46,6 @@
 }
 
 @keyframes drop {
-	from {
-	}
 	to {
 		top: 0;
 	}
