@@ -22,25 +22,6 @@
 	animation: drop 1s forwards;
 }
 
-.row0 {
-	top: -150%;
-}
-.row1 {
-	top: -250%;
-}
-.row2 {
-	top: -350%;
-}
-.row3 {
-	top: -450%;
-}
-.row4 {
-	top: -550%;
-}
-.row5 {
-	top: -650%;
-}
-
 .cell {
 	position: relative;
 }
