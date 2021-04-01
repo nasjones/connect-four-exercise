@@ -8,7 +8,7 @@
 const DEFAULT_WIDTH = 7;
 const DEFAULT_HEIGHT = 6;
 
-let currPlayer = 1; // active player: 1 or 2
+let currentPlayer = 1; // active player: 1 or 2
 const BOARD = []; // array of rows, each row is array of cells  (board[y][x])
 
 /** makeBoard: create in-JS board structure:
@@ -72,7 +72,7 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
 	const NEW_PIECE = document.createElement("div");
-	NEW_PIECE.classList.add("piece", `p${currPlayer}`);
+	NEW_PIECE.classList.add("piece", `p${currentPlayer}`);
 	const START_POS = -y * 100 - 150;
 	NEW_PIECE.style.top = `${START_POS}%`;
 	const BOARDDOM = document.getElementById("board");
@@ -97,21 +97,20 @@ function handleClick(evt) {
 	let y = findSpotForCol(x);
 	if (y) {
 		// place piece in board and add to HTML table
-		// TODO: add line to update in-memory board
 		placeInTable(y, x);
-		BOARD[y][x] = currPlayer;
+		BOARD[y][x] = currentPlayer;
 
 		// check for win
 		const GAME_STATUS = checkForWin();
-		if (checkForWin()) {
-			endGame(`Player ${currPlayer} won!`);
+		const BOARD_STATUS = checkForFull();
+		if (GAME_STATUS) {
+			endGame(`Player ${currentPlayer} won!`);
 		} // check for tie
-		else if (checkForFull()) {
+		else if (BOARD_STATUS) {
 			endGame(`It's a draw!`);
+		} else {
+			currentPlayer = currentPlayer == 1 ? 2 : 1;
 		}
-
-		// switch players
-		currPlayer = currPlayer == 1 ? 2 : 1;
 	}
 }
 
@@ -121,18 +120,17 @@ function checkForWin() {
 	function _win(cells) {
 		// Check four cells to see if they're all color of current player
 		//  - cells: list of four (y, x) cells
-		//  - returns true if all are legal coordinates & all match currPlayer
+		//  - returns true if all are legal coordinates & all match currentPlayer
 		return cells.every(
 			([y, x]) =>
 				y >= 0 &&
 				y < BOARD.length &&
 				x >= 0 &&
 				x < BOARD[0].length &&
-				BOARD[y][x] === currPlayer
+				BOARD[y][x] === currentPlayer
 		);
 	}
 
-	// TODO: read and understand this code. Add comments to help you.
 	// loops through each row of the array/matrix
 	for (let y = 0; y < BOARD[0].length; y++) {
 		// loops each item of the array/matrix
